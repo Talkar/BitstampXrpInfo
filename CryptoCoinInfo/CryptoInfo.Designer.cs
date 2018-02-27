@@ -38,11 +38,13 @@
             this.lblXrpCoinValue = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.chkStartWithWindows = new System.Windows.Forms.CheckBox();
             this.pnlCoinInfoContainer.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlCoinInfoContainer
             // 
+            this.pnlCoinInfoContainer.Controls.Add(this.chkStartWithWindows);
             this.pnlCoinInfoContainer.Controls.Add(this.button1);
             this.pnlCoinInfoContainer.Controls.Add(this.lblXrpAmountValue);
             this.pnlCoinInfoContainer.Controls.Add(this.label4);
@@ -140,6 +142,17 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "XRP / EUR:";
             // 
+            // chkStartWithWindows
+            // 
+            this.chkStartWithWindows.AutoSize = true;
+            this.chkStartWithWindows.Location = new System.Drawing.Point(7, 97);
+            this.chkStartWithWindows.Name = "chkStartWithWindows";
+            this.chkStartWithWindows.Size = new System.Drawing.Size(120, 17);
+            this.chkStartWithWindows.TabIndex = 9;
+            this.chkStartWithWindows.Text = "Start with windows?";
+            this.chkStartWithWindows.UseVisualStyleBackColor = true;
+            this.chkStartWithWindows.CheckedChanged += new System.EventHandler(this.chkStartWithWindows_CheckedChanged);
+            // 
             // CryptoInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -167,6 +180,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtXrp;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.CheckBox chkStartWithWindows;
     }
 }
 

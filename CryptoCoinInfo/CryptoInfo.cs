@@ -1,4 +1,5 @@
 ﻿using CryptoCoinInfo.Objects;
+using Microsoft.Win32;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace CryptoCoinInfo
     public partial class CryptoInfo : Form
     {
         private readonly string baseUrl = "https://www.bitstamp.net/api/v2/ticker/";
+        private const string AppName = "CryptoInfoXrp";
         public CryptoInfo()
         {
             InitializeComponent();
@@ -24,6 +26,7 @@ namespace CryptoCoinInfo
             txtXrp.Text = GetValueFromFile();
             var coinTimer = new Timer();
             SetCoinInfo();
+            SetChecked();
             coinTimer.Tick += CoinTimer_Tick;
             coinTimer.Interval = 10000;
             coinTimer.Start();
@@ -53,7 +56,7 @@ namespace CryptoCoinInfo
                 var couldParseXrpAmount = decimal.TryParse(xrpAmountText, out var xrpAmount);
                 if (couldParseXrpAmount)
                 {
-                    lblXrpAmountValue.Text = Math.Round(xrpAmount * xrpInfo.Bid,2).ToString() + "€";
+                    lblXrpAmountValue.Text = Math.Round(xrpAmount * xrpInfo.Bid, 2).ToString() + "€";
                 }
                 else
                 {
@@ -111,13 +114,18 @@ namespace CryptoCoinInfo
 
             if (!decimal.TryParse(txtXrp.Text, out var tempValue))
                 return;
-
-            using (var tw = new StreamWriter("XrpAmount.txt", false))
+            Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/CryptoInfo");
+            try
             {
-
+                using (var tw = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/CryptoInfo/XrpAmount.txt", false))
+            {
                 tw.WriteLine(txtXrp.Text);
             }
-
+            }
+            catch (Exception)
+            {
+                return;
+            }
         }
 
         private string GetValueFromFile()
@@ -125,7 +133,8 @@ namespace CryptoCoinInfo
             try
             {
 
-                using (var tw = new StreamReader("XrpAmount.txt"))
+                var directoryInfo = Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/CryptoInfo");
+                using (var tw = new StreamReader(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/CryptoInfo/XrpAmount.txt"))
                 {
                     return tw.ReadLine();
                 }
@@ -134,6 +143,33 @@ namespace CryptoCoinInfo
             {
                 return string.Empty;
             }
+        }
+
+        private void RegisterInStartup()
+        {
+            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey
+                    ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            if (chkStartWithWindows.Checked)
+            {
+                registryKey.SetValue(AppName, Application.ExecutablePath);
+            }
+            else
+            {
+                registryKey.DeleteValue(AppName);
+            }
+        }
+
+        private void SetChecked()
+        {
+            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey
+                    ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+
+            chkStartWithWindows.Checked = registryKey.GetValue(AppName) != null;
+        }
+
+        private void chkStartWithWindows_CheckedChanged(object sender, EventArgs e)
+        {
+            RegisterInStartup();
         }
     }
 }
