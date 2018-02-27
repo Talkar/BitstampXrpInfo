@@ -29,19 +29,21 @@
         private void InitializeComponent()
         {
             this.pnlCoinInfoContainer = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
+            this.lblXrpAmountValue = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtXrp = new System.Windows.Forms.TextBox();
             this.lblXrpEurDiff = new System.Windows.Forms.Label();
             this.lblXrpCoinValue = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtXrp = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.lblXrpAmountValue = new System.Windows.Forms.Label();
             this.pnlCoinInfoContainer.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlCoinInfoContainer
             // 
+            this.pnlCoinInfoContainer.Controls.Add(this.button1);
             this.pnlCoinInfoContainer.Controls.Add(this.lblXrpAmountValue);
             this.pnlCoinInfoContainer.Controls.Add(this.label4);
             this.pnlCoinInfoContainer.Controls.Add(this.label3);
@@ -52,8 +54,53 @@
             this.pnlCoinInfoContainer.Controls.Add(this.label1);
             this.pnlCoinInfoContainer.Location = new System.Drawing.Point(12, 12);
             this.pnlCoinInfoContainer.Name = "pnlCoinInfoContainer";
-            this.pnlCoinInfoContainer.Size = new System.Drawing.Size(260, 97);
+            this.pnlCoinInfoContainer.Size = new System.Drawing.Size(260, 123);
             this.pnlCoinInfoContainer.TabIndex = 0;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(182, 97);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "Opdater";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // lblXrpAmountValue
+            // 
+            this.lblXrpAmountValue.AutoSize = true;
+            this.lblXrpAmountValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblXrpAmountValue.Location = new System.Drawing.Point(110, 34);
+            this.lblXrpAmountValue.Name = "lblXrpAmountValue";
+            this.lblXrpAmountValue.Size = new System.Drawing.Size(41, 13);
+            this.lblXrpAmountValue.TabIndex = 7;
+            this.lblXrpAmountValue.Text = "label5";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(4, 34);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(99, 13);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "XRP amount value:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(81, 77);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(70, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "XRP amount:";
+            // 
+            // txtXrp
+            // 
+            this.txtXrp.Location = new System.Drawing.Point(157, 74);
+            this.txtXrp.Name = "txtXrp";
+            this.txtXrp.Size = new System.Drawing.Size(100, 20);
+            this.txtXrp.TabIndex = 4;
             // 
             // lblXrpEurDiff
             // 
@@ -93,47 +140,11 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "XRP / EUR:";
             // 
-            // txtXrp
-            // 
-            this.txtXrp.Location = new System.Drawing.Point(157, 74);
-            this.txtXrp.Name = "txtXrp";
-            this.txtXrp.Size = new System.Drawing.Size(100, 20);
-            this.txtXrp.TabIndex = 4;
-            this.txtXrp.Text = "1";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(81, 77);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(70, 13);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "XRP amount:";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(4, 34);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(99, 13);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "XRP amount value:";
-            // 
-            // lblXrpAmountValue
-            // 
-            this.lblXrpAmountValue.AutoSize = true;
-            this.lblXrpAmountValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblXrpAmountValue.Location = new System.Drawing.Point(110, 34);
-            this.lblXrpAmountValue.Name = "lblXrpAmountValue";
-            this.lblXrpAmountValue.Size = new System.Drawing.Size(41, 13);
-            this.lblXrpAmountValue.TabIndex = 7;
-            this.lblXrpAmountValue.Text = "label5";
-            // 
             // CryptoInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 129);
+            this.ClientSize = new System.Drawing.Size(284, 183);
             this.Controls.Add(this.pnlCoinInfoContainer);
             this.Name = "CryptoInfo";
             this.Text = "Form1";
@@ -155,6 +166,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtXrp;
+        private System.Windows.Forms.Button button1;
     }
 }
 

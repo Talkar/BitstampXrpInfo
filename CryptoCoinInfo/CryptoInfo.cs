@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace CryptoCoinInfo
             InitializeComponent();
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Text = "CryptoInfo";
-            txtXrp.Text = "360.462293";
+            txtXrp.Text = GetValueFromFile();
             var coinTimer = new Timer();
             SetCoinInfo();
             coinTimer.Tick += CoinTimer_Tick;
@@ -39,10 +40,10 @@ namespace CryptoCoinInfo
             var xrpInfo = GetCryptoInfo(coinPram: "xrpeur");
             if (xrpInfo == null)
                 return;
-            lblXrpCoinValue.Text = Math.Round(xrpInfo.Bid, 8).ToString() + "€";
-            lblXrpEurDiff.Text = Math.Round(xrpInfo.Difference, 8).ToString() + " %";
-
-            var xrpAmountText = txtXrp.Text;
+            lblXrpCoinValue.Text = Math.Round(xrpInfo.Bid, 3).ToString() + "€";
+            lblXrpEurDiff.Text = Math.Round(xrpInfo.Difference, 3).ToString() + "%";
+            SaveValueToFile();
+            var xrpAmountText = GetValueFromFile();
             if (string.IsNullOrEmpty(xrpAmountText))
             {
                 lblXrpAmountValue.Text = "";
@@ -52,7 +53,7 @@ namespace CryptoCoinInfo
                 var couldParseXrpAmount = decimal.TryParse(xrpAmountText, out var xrpAmount);
                 if (couldParseXrpAmount)
                 {
-                    lblXrpAmountValue.Text = (xrpAmount * xrpInfo.Bid).ToString()+ "€";
+                    lblXrpAmountValue.Text = Math.Round(xrpAmount * xrpInfo.Bid,2).ToString() + "€";
                 }
                 else
                 {
@@ -96,6 +97,43 @@ namespace CryptoCoinInfo
             var differenceInPercentage = (difference / currentPrice) * 100;
 
             return differenceInPercentage;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            SetCoinInfo();
+        }
+
+        private void SaveValueToFile()
+        {
+            if (string.IsNullOrEmpty(txtXrp.Text))
+                return;
+
+            if (!decimal.TryParse(txtXrp.Text, out var tempValue))
+                return;
+
+            using (var tw = new StreamWriter("XrpAmount.txt", false))
+            {
+
+                tw.WriteLine(txtXrp.Text);
+            }
+
+        }
+
+        private string GetValueFromFile()
+        {
+            try
+            {
+
+                using (var tw = new StreamReader("XrpAmount.txt"))
+                {
+                    return tw.ReadLine();
+                }
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
         }
     }
 }
