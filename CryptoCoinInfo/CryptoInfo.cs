@@ -102,11 +102,6 @@ namespace CryptoCoinInfo
             return differenceInPercentage;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            SetCoinInfo();
-        }
-
         private void SaveValueToFile()
         {
             if (string.IsNullOrEmpty(txtXrp.Text))
@@ -171,5 +166,10 @@ namespace CryptoCoinInfo
         {
             RegisterInStartup();
         }
-    }
+
+		private void btnUpdate_Click(object sender, EventArgs e)
+		{
+			SetCoinInfo();
+		}
+	}
 }
