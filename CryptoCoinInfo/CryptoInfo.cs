@@ -43,8 +43,8 @@ namespace CryptoCoinInfo
             var xrpInfo = GetCryptoInfo(coinPram: "xrpeur");
             if (xrpInfo == null)
                 return;
-            lblXrpCoinValue.Text = Math.Round(xrpInfo.Bid, 3).ToString() + "€";
-            lblXrpEurDiff.Text = Math.Round(xrpInfo.Difference, 3).ToString() + "%";
+            lblXrpCoinValue.Text = Math.Round(xrpInfo.Bid, 6).ToString() + "€";
+            lblXrpEurDiff.Text = Math.Round(xrpInfo.Difference, 6).ToString() + "%";
             SaveValueToFile();
             var xrpAmountText = GetValueFromFile();
             if (string.IsNullOrEmpty(xrpAmountText))
