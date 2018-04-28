@@ -55,7 +55,7 @@ namespace CryptoCoinInfo
                 topmostValue = "False";
                 iniFileHandler.Write(Key: alwaysOnTopKey, Value: topmostValue);
             }
-            TopMost = bool.Parse(topmostValue);
+            chkAlwaysOnTop.Checked = TopMost = bool.Parse(topmostValue);
         }
 
         private void LoadCurrencyCoin()
