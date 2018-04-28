@@ -8,6 +8,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.Caching;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -18,18 +19,97 @@ namespace CryptoCoinInfo
     {
         private readonly string baseUrl = "https://www.bitstamp.net/api/v2/ticker/";
         private const string AppName = "CryptoInfoXrp";
+        private readonly string settingsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/CryptoInfo/Settings.ini";
+        private const string xrpAmountKey = "XrpAmount";
+        private const string apiKeyKey = "ApiKey";
+        private const string exchangeCoinKey = "ExchangeCoin";
+        private IniFileHandler iniFileHandler;
+        private MemoryCache cache;
         public CryptoInfo()
         {
             InitializeComponent();
+            iniFileHandler = new IniFileHandler(IniPath: settingsPath);
+            cache = new MemoryCache(name: "CryptoInfoXrpCache");
+            lblApiKeyError.Visible = false;
+            CheckIfOldFileExist_MoveToNewSettingsFile();
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Text = "CryptoInfo";
-            txtXrp.Text = GetValueFromFile();
+            txtXrp.Text = iniFileHandler.Read(Key: xrpAmountKey);
             var coinTimer = new Timer();
-            SetCoinInfo();
             SetChecked();
+            LoadApiKey();
+            LoadCurrencyCoin();
+            SetCoinInfo();
             coinTimer.Tick += CoinTimer_Tick;
             coinTimer.Interval = 10000;
             coinTimer.Start();
+        }
+
+        private void LoadCurrencyCoin()
+        {
+            var currencyCoin = iniFileHandler.Read(Key: exchangeCoinKey);
+            if (!string.IsNullOrWhiteSpace(currencyCoin))
+                txtCurrency.Text = currencyCoin;
+        }
+
+        private void LoadApiKey()
+        {
+            var apiKey = iniFileHandler.Read(Key: apiKeyKey);
+            if (!string.IsNullOrWhiteSpace(apiKey))
+            {
+                txtApiKey.Text = apiKey;
+            }
+        }
+
+        private decimal ConvertFromEurToCurrency(string valueInEur, string currencyToConvertTo)
+        {
+            var exhangeRate = cache[$"EUR{currencyToConvertTo.ToUpper().Trim()}"] as string;
+            if (string.IsNullOrWhiteSpace(exhangeRate))
+            {
+                exhangeRate = SetExchangeRate(currencyToConvertTo);
+            }
+
+            return decimal.Parse(valueInEur) * decimal.Parse(exhangeRate);
+        }
+
+        private string SetExchangeRate(string currencyToConvertTo)
+        {
+            if (string.IsNullOrWhiteSpace(currencyToConvertTo))
+                return "1";
+
+            var apiKey = iniFileHandler.Read(Key: apiKeyKey);
+            if (string.IsNullOrWhiteSpace(apiKey))
+            {
+                var savedApiKey = SaveApiKey();
+                if (string.IsNullOrWhiteSpace(savedApiKey))
+                {
+                    lblApiKeyError.Visible = true;
+                    return "1";
+                }
+                else
+                    apiKey = SaveApiKey();
+            }
+
+            var client = new RestClient("http://data.fixer.io/api/");
+            var request = new RestRequest(resource: "latest", method: Method.GET);
+            request.AddQueryParameter(name: "access_key", value: apiKey);
+            request.AddQueryParameter(name: "base", value: "EUR");
+            request.AddQueryParameter(name: "symbols", value: currencyToConvertTo);
+
+            var response = client.Get<FixerIoResponseObject>(request);
+            var exchangeRate = response.Data.Rates.Single(r => r.Key == currencyToConvertTo).Value;
+            cache.Set(key: $"EUR{currencyToConvertTo.ToUpper().Trim()}", value: exchangeRate, policy: new CacheItemPolicy { AbsoluteExpiration = DateTime.Now.AddDays(1) });
+            return exchangeRate;
+        }
+
+        private void CheckIfOldFileExist_MoveToNewSettingsFile()
+        {
+            var xrpAmount = GetValueFromOldFile();
+            if (string.IsNullOrWhiteSpace(xrpAmount))
+                return;
+
+            iniFileHandler.Write(Key: xrpAmountKey, Value: xrpAmount);
+
         }
 
         private void CoinTimer_Tick(object sender, EventArgs e)
@@ -43,10 +123,10 @@ namespace CryptoCoinInfo
             var xrpInfo = GetCryptoInfo(coinPram: "xrpeur");
             if (xrpInfo == null)
                 return;
-            lblXrpCoinValue.Text = Math.Round(xrpInfo.Bid, 3).ToString() + "€";
+            lblXrpCoinValue.Text = Math.Round(xrpInfo.Last, 3).ToString()+" " + iniFileHandler.Read(Key: exchangeCoinKey);
             lblXrpEurDiff.Text = Math.Round(xrpInfo.Difference, 3).ToString() + "%";
-            SaveValueToFile();
-            var xrpAmountText = GetValueFromFile();
+            SaveCoinInfo();
+            var xrpAmountText = iniFileHandler.Read(Key: xrpAmountKey);
             if (string.IsNullOrEmpty(xrpAmountText))
             {
                 lblXrpAmountValue.Text = "";
@@ -56,7 +136,7 @@ namespace CryptoCoinInfo
                 var couldParseXrpAmount = decimal.TryParse(xrpAmountText, out var xrpAmount);
                 if (couldParseXrpAmount)
                 {
-                    lblXrpAmountValue.Text = Math.Round(xrpAmount * xrpInfo.Bid, 2).ToString() + "€";
+                    lblXrpAmountValue.Text = Math.Round(xrpAmount * xrpInfo.Last, 2).ToString() + " " + iniFileHandler.Read(Key: exchangeCoinKey);
                 }
                 else
                 {
@@ -80,6 +160,17 @@ namespace CryptoCoinInfo
             }
         }
 
+        private void SaveCoinInfo()
+        {
+            if (string.IsNullOrEmpty(txtXrp.Text))
+                return;
+
+            if (!decimal.TryParse(txtXrp.Text, out var tempValue))
+                return;
+
+            iniFileHandler.Write(Key: xrpAmountKey, Value: txtXrp.Text.Trim());
+        }
+
         private CoinInfo GetCryptoInfo(string coinPram)
         {
             var client = new RestClient(baseUrl);
@@ -89,7 +180,13 @@ namespace CryptoCoinInfo
             var coin = client.Execute<CoinInfo>(request).Data;
             if (coin == null)
                 return null;
-            coin.Difference = CalculatePriceDifferenceInPercentage(currentPrice: coin.Bid, openPrice: coin.Open);
+            var convertedLast = ConvertFromEurToCurrency(coin.Last.ToString(), txtCurrency.Text.ToUpper().Trim());
+            coin.Last = convertedLast;
+
+            var convertedOpen = ConvertFromEurToCurrency(coin.Open.ToString(), txtCurrency.Text.ToUpper().Trim());
+            coin.Open = convertedOpen;
+
+            coin.Difference = CalculatePriceDifferenceInPercentage(currentPrice: coin.Last, openPrice: coin.Open);
 
             return coin;
         }
@@ -104,31 +201,12 @@ namespace CryptoCoinInfo
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (!String.IsNullOrWhiteSpace(txtCurrency.Text.Trim()))
+                iniFileHandler.Write(Key: exchangeCoinKey, Value: txtCurrency.Text.Trim().ToUpper());
             SetCoinInfo();
         }
 
-        private void SaveValueToFile()
-        {
-            if (string.IsNullOrEmpty(txtXrp.Text))
-                return;
-
-            if (!decimal.TryParse(txtXrp.Text, out var tempValue))
-                return;
-            Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/CryptoInfo");
-            try
-            {
-                using (var tw = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/CryptoInfo/XrpAmount.txt", false))
-            {
-                tw.WriteLine(txtXrp.Text);
-            }
-            }
-            catch (Exception)
-            {
-                return;
-            }
-        }
-
-        private string GetValueFromFile()
+        private string GetValueFromOldFile()
         {
             try
             {
@@ -136,7 +214,10 @@ namespace CryptoCoinInfo
                 var directoryInfo = Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/CryptoInfo");
                 using (var tw = new StreamReader(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/CryptoInfo/XrpAmount.txt"))
                 {
-                    return tw.ReadLine();
+                    var result = tw.ReadLine();
+                    if (!string.IsNullOrWhiteSpace(result))
+                        File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/CryptoInfo/XrpAmount.txt");
+                    return result;
                 }
             }
             catch (Exception)
@@ -170,6 +251,17 @@ namespace CryptoCoinInfo
         private void chkStartWithWindows_CheckedChanged(object sender, EventArgs e)
         {
             RegisterInStartup();
+        }
+
+        private void btnSaveApiKey_Click(object sender, EventArgs e)
+        {
+            SaveApiKey();
+        }
+
+        private string SaveApiKey()
+        {
+            iniFileHandler.Write(Key: apiKeyKey, Value: txtApiKey.Text.Trim());
+            return txtApiKey.Text.Trim();
         }
     }
 }

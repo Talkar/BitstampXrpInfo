@@ -40,6 +40,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -61,7 +62,9 @@
     <Compile Include="CryptoInfo.Designer.cs">
       <DependentUpon>CryptoInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="IniFileHandler.cs" />
     <Compile Include="Objects\CoinInfo.cs" />
+    <Compile Include="Objects\FixerIoResponseObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="CryptoInfo.resx">
