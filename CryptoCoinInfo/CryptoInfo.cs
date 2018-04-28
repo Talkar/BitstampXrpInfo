@@ -23,6 +23,7 @@ namespace CryptoCoinInfo
         private const string xrpAmountKey = "XrpAmount";
         private const string apiKeyKey = "ApiKey";
         private const string exchangeCoinKey = "ExchangeCoin";
+        private const string alwaysOnTopKey = "AlwaysOnTop";
         private IniFileHandler iniFileHandler;
         private MemoryCache cache;
         public CryptoInfo()
@@ -36,6 +37,7 @@ namespace CryptoCoinInfo
             Text = "CryptoInfo";
             txtXrp.Text = iniFileHandler.Read(Key: xrpAmountKey);
             var coinTimer = new Timer();
+            LoadAlwaysOnTop();
             SetChecked();
             LoadApiKey();
             LoadCurrencyCoin();
@@ -43,6 +45,17 @@ namespace CryptoCoinInfo
             coinTimer.Tick += CoinTimer_Tick;
             coinTimer.Interval = 10000;
             coinTimer.Start();
+        }
+
+        private void LoadAlwaysOnTop()
+        {
+            var topmostValue = iniFileHandler.Read(Key: alwaysOnTopKey);
+            if (string.IsNullOrWhiteSpace(topmostValue))
+            {
+                topmostValue = "False";
+                iniFileHandler.Write(Key: alwaysOnTopKey, Value: topmostValue);
+            }
+            TopMost = bool.Parse(topmostValue);
         }
 
         private void LoadCurrencyCoin()
@@ -123,9 +136,9 @@ namespace CryptoCoinInfo
             var xrpInfo = GetCryptoInfo(coinPram: "xrpeur");
             if (xrpInfo == null)
                 return;
-            lblCoinDiff.Text = "XRP / " + iniFileHandler.Read(Key: exchangeCoinKey)+": ";
+            lblCoinDiff.Text = "XRP / " + iniFileHandler.Read(Key: exchangeCoinKey) + ": ";
             lblDiffPercentage.Text = "XRP open/last in percent: ";
-            lblXrpCoinValue.Text = Math.Round(xrpInfo.Last, 3).ToString()+" " + iniFileHandler.Read(Key: exchangeCoinKey);
+            lblXrpCoinValue.Text = Math.Round(xrpInfo.Last, 3).ToString() + " " + iniFileHandler.Read(Key: exchangeCoinKey);
             lblXrpEurDiff.Text = Math.Round(xrpInfo.Difference, 3).ToString() + "%";
             SaveCoinInfo();
             var xrpAmountText = iniFileHandler.Read(Key: xrpAmountKey);
@@ -264,6 +277,20 @@ namespace CryptoCoinInfo
         {
             iniFileHandler.Write(Key: apiKeyKey, Value: txtApiKey.Text.Trim());
             return txtApiKey.Text.Trim();
+        }
+
+        private void chkAlwaysOnTop_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkAlwaysOnTop.Checked)
+            {
+                iniFileHandler.Write(Key: alwaysOnTopKey, Value: "True");
+                TopMost = true;
+            }
+            else
+            {
+                iniFileHandler.Write(Key: alwaysOnTopKey, Value: "False");
+                TopMost = false;
+            }
         }
     }
 }

@@ -46,6 +46,7 @@
             this.btnSaveApiKey = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.txtApiKey = new System.Windows.Forms.TextBox();
+            this.chkAlwaysOnTop = new System.Windows.Forms.CheckBox();
             this.pnlCoinInfoContainer.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -53,6 +54,7 @@
             // pnlCoinInfoContainer
             // 
             this.pnlCoinInfoContainer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlCoinInfoContainer.Controls.Add(this.chkAlwaysOnTop);
             this.pnlCoinInfoContainer.Controls.Add(this.txtCurrency);
             this.pnlCoinInfoContainer.Controls.Add(this.label6);
             this.pnlCoinInfoContainer.Controls.Add(this.chkStartWithWindows);
@@ -230,6 +232,17 @@
             this.txtApiKey.Size = new System.Drawing.Size(356, 20);
             this.txtApiKey.TabIndex = 0;
             // 
+            // chkAlwaysOnTop
+            // 
+            this.chkAlwaysOnTop.AutoSize = true;
+            this.chkAlwaysOnTop.Location = new System.Drawing.Point(150, 92);
+            this.chkAlwaysOnTop.Name = "chkAlwaysOnTop";
+            this.chkAlwaysOnTop.Size = new System.Drawing.Size(92, 17);
+            this.chkAlwaysOnTop.TabIndex = 12;
+            this.chkAlwaysOnTop.Text = "Always on top";
+            this.chkAlwaysOnTop.UseVisualStyleBackColor = true;
+            this.chkAlwaysOnTop.CheckedChanged += new System.EventHandler(this.chkAlwaysOnTop_CheckedChanged);
+            // 
             // CryptoInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -268,6 +281,7 @@
         private System.Windows.Forms.Label lblApiKeyError;
         private System.Windows.Forms.TextBox txtCurrency;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.CheckBox chkAlwaysOnTop;
     }
 }
 
