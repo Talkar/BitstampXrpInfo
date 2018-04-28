@@ -39,8 +39,8 @@
             this.txtXrp = new System.Windows.Forms.TextBox();
             this.lblXrpEurDiff = new System.Windows.Forms.Label();
             this.lblXrpCoinValue = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblDiffPercentage = new System.Windows.Forms.Label();
+            this.lblCoinDiff = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lblApiKeyError = new System.Windows.Forms.Label();
             this.btnSaveApiKey = new System.Windows.Forms.Button();
@@ -63,8 +63,8 @@
             this.pnlCoinInfoContainer.Controls.Add(this.txtXrp);
             this.pnlCoinInfoContainer.Controls.Add(this.lblXrpEurDiff);
             this.pnlCoinInfoContainer.Controls.Add(this.lblXrpCoinValue);
-            this.pnlCoinInfoContainer.Controls.Add(this.label2);
-            this.pnlCoinInfoContainer.Controls.Add(this.label1);
+            this.pnlCoinInfoContainer.Controls.Add(this.lblDiffPercentage);
+            this.pnlCoinInfoContainer.Controls.Add(this.lblCoinDiff);
             this.pnlCoinInfoContainer.Location = new System.Drawing.Point(12, 12);
             this.pnlCoinInfoContainer.Name = "pnlCoinInfoContainer";
             this.pnlCoinInfoContainer.Size = new System.Drawing.Size(471, 122);
@@ -111,7 +111,7 @@
             // 
             this.lblXrpAmountValue.AutoSize = true;
             this.lblXrpAmountValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblXrpAmountValue.Location = new System.Drawing.Point(111, 38);
+            this.lblXrpAmountValue.Location = new System.Drawing.Point(132, 38);
             this.lblXrpAmountValue.Name = "lblXrpAmountValue";
             this.lblXrpAmountValue.Size = new System.Drawing.Size(41, 13);
             this.lblXrpAmountValue.TabIndex = 7;
@@ -146,7 +146,7 @@
             // 
             this.lblXrpEurDiff.AutoSize = true;
             this.lblXrpEurDiff.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblXrpEurDiff.Location = new System.Drawing.Point(111, 21);
+            this.lblXrpEurDiff.Location = new System.Drawing.Point(132, 21);
             this.lblXrpEurDiff.Name = "lblXrpEurDiff";
             this.lblXrpEurDiff.Size = new System.Drawing.Size(41, 13);
             this.lblXrpEurDiff.TabIndex = 3;
@@ -156,29 +156,29 @@
             // 
             this.lblXrpCoinValue.AutoSize = true;
             this.lblXrpCoinValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblXrpCoinValue.Location = new System.Drawing.Point(111, 5);
+            this.lblXrpCoinValue.Location = new System.Drawing.Point(132, 5);
             this.lblXrpCoinValue.Name = "lblXrpCoinValue";
             this.lblXrpCoinValue.Size = new System.Drawing.Size(41, 13);
             this.lblXrpCoinValue.TabIndex = 2;
             this.lblXrpCoinValue.Text = "label3";
             // 
-            // label2
+            // lblDiffPercentage
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(5, 21);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(85, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "XRP / EUR Diff:";
+            this.lblDiffPercentage.AutoSize = true;
+            this.lblDiffPercentage.Location = new System.Drawing.Point(5, 21);
+            this.lblDiffPercentage.Name = "lblDiffPercentage";
+            this.lblDiffPercentage.Size = new System.Drawing.Size(85, 13);
+            this.lblDiffPercentage.TabIndex = 1;
+            this.lblDiffPercentage.Text = "XRP / EUR Diff:";
             // 
-            // label1
+            // lblCoinDiff
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(5, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(66, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "XRP / EUR:";
+            this.lblCoinDiff.AutoSize = true;
+            this.lblCoinDiff.Location = new System.Drawing.Point(5, 8);
+            this.lblCoinDiff.Name = "lblCoinDiff";
+            this.lblCoinDiff.Size = new System.Drawing.Size(66, 13);
+            this.lblCoinDiff.TabIndex = 0;
+            this.lblCoinDiff.Text = "XRP / EUR:";
             // 
             // panel1
             // 
@@ -253,8 +253,8 @@
         private System.Windows.Forms.Panel pnlCoinInfoContainer;
         private System.Windows.Forms.Label lblXrpEurDiff;
         private System.Windows.Forms.Label lblXrpCoinValue;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblDiffPercentage;
+        private System.Windows.Forms.Label lblCoinDiff;
         private System.Windows.Forms.Label lblXrpAmountValue;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;

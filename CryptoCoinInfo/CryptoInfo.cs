@@ -123,6 +123,8 @@ namespace CryptoCoinInfo
             var xrpInfo = GetCryptoInfo(coinPram: "xrpeur");
             if (xrpInfo == null)
                 return;
+            lblCoinDiff.Text = "XRP / " + iniFileHandler.Read(Key: exchangeCoinKey)+": ";
+            lblDiffPercentage.Text = "XRP open/last in percent: ";
             lblXrpCoinValue.Text = Math.Round(xrpInfo.Last, 3).ToString()+" " + iniFileHandler.Read(Key: exchangeCoinKey);
             lblXrpEurDiff.Text = Math.Round(xrpInfo.Difference, 3).ToString() + "%";
             SaveCoinInfo();
