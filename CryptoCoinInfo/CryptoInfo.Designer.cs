@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.pnlCoinInfoContainer = new System.Windows.Forms.Panel();
+            this.chkAlwaysOnTop = new System.Windows.Forms.CheckBox();
             this.txtCurrency = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.chkStartWithWindows = new System.Windows.Forms.CheckBox();
@@ -46,7 +47,8 @@
             this.btnSaveApiKey = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.txtApiKey = new System.Windows.Forms.TextBox();
-            this.chkAlwaysOnTop = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblXrpEur = new System.Windows.Forms.Label();
             this.pnlCoinInfoContainer.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -54,23 +56,36 @@
             // pnlCoinInfoContainer
             // 
             this.pnlCoinInfoContainer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlCoinInfoContainer.Controls.Add(this.lblXrpEur);
+            this.pnlCoinInfoContainer.Controls.Add(this.label1);
             this.pnlCoinInfoContainer.Controls.Add(this.chkAlwaysOnTop);
             this.pnlCoinInfoContainer.Controls.Add(this.txtCurrency);
             this.pnlCoinInfoContainer.Controls.Add(this.label6);
-            this.pnlCoinInfoContainer.Controls.Add(this.chkStartWithWindows);
-            this.pnlCoinInfoContainer.Controls.Add(this.button1);
             this.pnlCoinInfoContainer.Controls.Add(this.lblXrpAmountValue);
+            this.pnlCoinInfoContainer.Controls.Add(this.chkStartWithWindows);
+            this.pnlCoinInfoContainer.Controls.Add(this.lblXrpEurDiff);
+            this.pnlCoinInfoContainer.Controls.Add(this.button1);
+            this.pnlCoinInfoContainer.Controls.Add(this.lblXrpCoinValue);
             this.pnlCoinInfoContainer.Controls.Add(this.label4);
             this.pnlCoinInfoContainer.Controls.Add(this.label3);
             this.pnlCoinInfoContainer.Controls.Add(this.txtXrp);
-            this.pnlCoinInfoContainer.Controls.Add(this.lblXrpEurDiff);
-            this.pnlCoinInfoContainer.Controls.Add(this.lblXrpCoinValue);
             this.pnlCoinInfoContainer.Controls.Add(this.lblDiffPercentage);
             this.pnlCoinInfoContainer.Controls.Add(this.lblCoinDiff);
             this.pnlCoinInfoContainer.Location = new System.Drawing.Point(12, 12);
             this.pnlCoinInfoContainer.Name = "pnlCoinInfoContainer";
             this.pnlCoinInfoContainer.Size = new System.Drawing.Size(471, 122);
             this.pnlCoinInfoContainer.TabIndex = 0;
+            // 
+            // chkAlwaysOnTop
+            // 
+            this.chkAlwaysOnTop.AutoSize = true;
+            this.chkAlwaysOnTop.Location = new System.Drawing.Point(150, 92);
+            this.chkAlwaysOnTop.Name = "chkAlwaysOnTop";
+            this.chkAlwaysOnTop.Size = new System.Drawing.Size(92, 17);
+            this.chkAlwaysOnTop.TabIndex = 12;
+            this.chkAlwaysOnTop.Text = "Always on top";
+            this.chkAlwaysOnTop.UseVisualStyleBackColor = true;
+            this.chkAlwaysOnTop.CheckedChanged += new System.EventHandler(this.chkAlwaysOnTop_CheckedChanged);
             // 
             // txtCurrency
             // 
@@ -82,7 +97,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(227, 21);
+            this.label6.Location = new System.Drawing.Point(238, 16);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(115, 13);
             this.label6.TabIndex = 10;
@@ -113,7 +128,7 @@
             // 
             this.lblXrpAmountValue.AutoSize = true;
             this.lblXrpAmountValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblXrpAmountValue.Location = new System.Drawing.Point(132, 38);
+            this.lblXrpAmountValue.Location = new System.Drawing.Point(135, 55);
             this.lblXrpAmountValue.Name = "lblXrpAmountValue";
             this.lblXrpAmountValue.Size = new System.Drawing.Size(41, 13);
             this.lblXrpAmountValue.TabIndex = 7;
@@ -122,7 +137,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(5, 38);
+            this.label4.Location = new System.Drawing.Point(5, 55);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(99, 13);
             this.label4.TabIndex = 6;
@@ -148,7 +163,7 @@
             // 
             this.lblXrpEurDiff.AutoSize = true;
             this.lblXrpEurDiff.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblXrpEurDiff.Location = new System.Drawing.Point(132, 21);
+            this.lblXrpEurDiff.Location = new System.Drawing.Point(135, 41);
             this.lblXrpEurDiff.Name = "lblXrpEurDiff";
             this.lblXrpEurDiff.Size = new System.Drawing.Size(41, 13);
             this.lblXrpEurDiff.TabIndex = 3;
@@ -158,7 +173,7 @@
             // 
             this.lblXrpCoinValue.AutoSize = true;
             this.lblXrpCoinValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblXrpCoinValue.Location = new System.Drawing.Point(132, 5);
+            this.lblXrpCoinValue.Location = new System.Drawing.Point(135, 27);
             this.lblXrpCoinValue.Name = "lblXrpCoinValue";
             this.lblXrpCoinValue.Size = new System.Drawing.Size(41, 13);
             this.lblXrpCoinValue.TabIndex = 2;
@@ -167,7 +182,7 @@
             // lblDiffPercentage
             // 
             this.lblDiffPercentage.AutoSize = true;
-            this.lblDiffPercentage.Location = new System.Drawing.Point(5, 21);
+            this.lblDiffPercentage.Location = new System.Drawing.Point(5, 41);
             this.lblDiffPercentage.Name = "lblDiffPercentage";
             this.lblDiffPercentage.Size = new System.Drawing.Size(85, 13);
             this.lblDiffPercentage.TabIndex = 1;
@@ -176,7 +191,7 @@
             // lblCoinDiff
             // 
             this.lblCoinDiff.AutoSize = true;
-            this.lblCoinDiff.Location = new System.Drawing.Point(5, 8);
+            this.lblCoinDiff.Location = new System.Drawing.Point(5, 27);
             this.lblCoinDiff.Name = "lblCoinDiff";
             this.lblCoinDiff.Size = new System.Drawing.Size(66, 13);
             this.lblCoinDiff.TabIndex = 0;
@@ -232,16 +247,24 @@
             this.txtApiKey.Size = new System.Drawing.Size(356, 20);
             this.txtApiKey.TabIndex = 0;
             // 
-            // chkAlwaysOnTop
+            // label1
             // 
-            this.chkAlwaysOnTop.AutoSize = true;
-            this.chkAlwaysOnTop.Location = new System.Drawing.Point(150, 92);
-            this.chkAlwaysOnTop.Name = "chkAlwaysOnTop";
-            this.chkAlwaysOnTop.Size = new System.Drawing.Size(92, 17);
-            this.chkAlwaysOnTop.TabIndex = 12;
-            this.chkAlwaysOnTop.Text = "Always on top";
-            this.chkAlwaysOnTop.UseVisualStyleBackColor = true;
-            this.chkAlwaysOnTop.CheckedChanged += new System.EventHandler(this.chkAlwaysOnTop_CheckedChanged);
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(5, 13);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(66, 13);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "XRP / EUR:";
+            // 
+            // lblXrpEur
+            // 
+            this.lblXrpEur.AutoSize = true;
+            this.lblXrpEur.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblXrpEur.Location = new System.Drawing.Point(135, 13);
+            this.lblXrpEur.Name = "lblXrpEur";
+            this.lblXrpEur.Size = new System.Drawing.Size(41, 13);
+            this.lblXrpEur.TabIndex = 14;
+            this.lblXrpEur.Text = "label2";
             // 
             // CryptoInfo
             // 
@@ -282,6 +305,8 @@
         private System.Windows.Forms.TextBox txtCurrency;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.CheckBox chkAlwaysOnTop;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblXrpEur;
     }
 }
 

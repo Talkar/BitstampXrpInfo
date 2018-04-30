@@ -136,6 +136,7 @@ namespace CryptoCoinInfo
             var xrpInfo = GetCryptoInfo(coinPram: "xrpeur");
             if (xrpInfo == null)
                 return;
+            lblXrpEur.Text = $"{xrpInfo.LastInEuro} €";
             lblCoinDiff.Text = "XRP / " + iniFileHandler.Read(Key: exchangeCoinKey) + ": ";
             lblDiffPercentage.Text = "XRP open/last in percent: ";
             lblXrpCoinValue.Text = Math.Round(xrpInfo.Last, 3).ToString() + " " + iniFileHandler.Read(Key: exchangeCoinKey);
@@ -195,6 +196,7 @@ namespace CryptoCoinInfo
             var coin = client.Execute<CoinInfo>(request).Data;
             if (coin == null)
                 return null;
+            coin.LastInEuro = coin.Last;
             var convertedLast = ConvertFromEurToCurrency(coin.Last.ToString(), txtCurrency.Text.ToUpper().Trim());
             coin.Last = convertedLast;
 

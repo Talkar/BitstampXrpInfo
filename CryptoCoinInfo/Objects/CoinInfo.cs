@@ -12,5 +12,6 @@
         public decimal Open { get; set; }
         public decimal Timestamp { get; set; }
         public decimal Difference { get; set; }
+        public decimal LastInEuro { get; set; }
     }
 }
