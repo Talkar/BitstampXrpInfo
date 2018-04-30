@@ -82,7 +82,7 @@ namespace CryptoCoinInfo
                 exhangeRate = SetExchangeRate(currencyToConvertTo);
             }
 
-            return decimal.Parse(valueInEur) * decimal.Parse(exhangeRate);
+            return decimal.Parse(valueInEur.Replace('.', ',')) * decimal.Parse(exhangeRate.Replace('.',','));
         }
 
         private string SetExchangeRate(string currencyToConvertTo)
