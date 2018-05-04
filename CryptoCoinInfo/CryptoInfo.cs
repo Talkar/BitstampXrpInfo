@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.Caching;
@@ -82,7 +83,7 @@ namespace CryptoCoinInfo
                 exhangeRate = SetExchangeRate(currencyToConvertTo);
             }
 
-            return decimal.Parse(valueInEur.Replace('.', ',')) * decimal.Parse(exhangeRate.Replace('.',','));
+            return decimal.Parse(valueInEur.Replace(',', '.'), CultureInfo.InvariantCulture) * decimal.Parse(exhangeRate.Replace(',','.'), CultureInfo.InvariantCulture);
         }
 
         private string SetExchangeRate(string currencyToConvertTo)
