@@ -203,7 +203,16 @@ namespace CryptoCoinInfo
             var convertedOpen = ConvertFromEurToCurrency(coin.Open.ToString(), txtCurrency.Text.ToUpper().Trim());
             coin.Open = convertedOpen;
 
-            coin.Difference = CalculatePriceDifferenceInPercentage(currentPrice: coin.Last, openPrice: coin.Open);
+			var convertedVWap = ConvertFromEurToCurrency(coin.Vwap.ToString(), txtCurrency.Text.ToUpper().Trim());
+			coin.Vwap = convertedVWap;
+
+			var convertedHigh = ConvertFromEurToCurrency(coin.High.ToString(), txtCurrency.Text.ToUpper().Trim());
+			coin.High = convertedHigh;
+
+			var convertedLow = ConvertFromEurToCurrency(coin.Low.ToString(), txtCurrency.Text.ToUpper().Trim());
+			coin.Low = convertedLow;
+
+			coin.Difference = CalculatePriceDifferenceInPercentage(currentPrice: coin.Last, openPrice: coin.Vwap);
 
             return coin;
         }
